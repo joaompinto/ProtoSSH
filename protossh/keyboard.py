@@ -1,5 +1,5 @@
-import msvcrt
 import threading
+from getch import getch
 
 
 class KeyboardReadThread(threading.Thread):
@@ -10,5 +10,5 @@ class KeyboardReadThread(threading.Thread):
 
     def run(self):
         while True:
-            key = msvcrt.getch()
+            key = getch()
             self.chan.sendall(key)

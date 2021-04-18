@@ -1,6 +1,6 @@
 # ProtoSSH
 
-This a proof-of-concept implementation of an SSH Client using Python (Windows Only).
+This a Proof-Of-Concept implementation of an SSH client using Python.
 
 # How to test
 
@@ -13,11 +13,11 @@ docker run -d -p 2222:22 --name test_sshd rastasheep/ubuntu-sshd
 
 ## Install the requirements
 ```sh
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 ## Run the client
 ```sh
-python -m protossh
+python3 -m protossh
 ```
 
 # Approach
