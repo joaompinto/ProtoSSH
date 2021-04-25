@@ -8,16 +8,16 @@ This a Proof-Of-Concept implementation of an SSH client using Python.
 Using Docker start a sample sshd container:
 
 ```sh
-docker run -d -p 2222:22 --name test_sshd rastasheep/ubuntu-sshd
+docker run -d -p 3333:22 --name test_sshd rastasheep/ubuntu-sshd
 ```
 
 ## Install the requirements
 ```sh
-python3 -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 ## Run the client
 ```sh
-python3 -m protossh
+python -m protossh
 ```
 
 # Approach

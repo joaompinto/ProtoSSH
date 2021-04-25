@@ -1,5 +1,5 @@
 import threading
-import sys
+from .stream import TerminalStream
 
 
 class NetworkReadThread(threading.Thread):
@@ -7,14 +7,16 @@ class NetworkReadThread(threading.Thread):
         threading.Thread.__init__(self)
         self.terminate_queue = terminate_queue
         self.chan = chan
+        # If the output is long, multi-byte encoded characters may be split
+        # across calls to recv, so decode incrementally.
+        self.stream = TerminalStream()
 
     def run(self):
         chan = self.chan
         chan.setblocking(True)
         while True:
-            x = chan.recv(1024).decode()
-            if len(x) == 0:  # Connection was closed
+            data = chan.recv(65535)
+            if len(data) == 0:  # Connection was closed
                 break
-            sys.stdout.write(x)
-            sys.stdout.flush()
+            self.stream.feed(data)
         self.terminate_queue.put(None)

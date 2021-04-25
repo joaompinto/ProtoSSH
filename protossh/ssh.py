@@ -2,6 +2,7 @@ import os
 import paramiko
 import re
 import sys
+from shutil import get_terminal_size
 from queue import Queue
 from .network import NetworkReadThread
 from .keyboard import KeyboardReadThread
@@ -20,13 +21,20 @@ class SSHClient:
         client = self.client
         client.connect(hostname, port=port, username=username, password=password)
 
-    def run_terminal(self):
+    def run_terminal(self, initial_command=None):
         self.invoke_shell()  # Start a tty
-        self.wait_for_server_data(self.LOGIN_REGEX, verbose=True)
+        # self.wait_for_server_data(self.LOGIN_REGEX, verbose=True)
+        if initial_command:
+            self.chan.sendall(initial_command)
         self.interactive_shell()
 
     def invoke_shell(self):
-        chan = self.client.invoke_shell(term=os.getenv("TERM") or "vt100")
+        term_size = get_terminal_size((80, 24))
+        chan = self.client.invoke_shell(
+            term=os.getenv("TERM") or "vt100",
+            width=term_size.columns,
+            height=term_size.lines,
+        )
         chan.transport.set_keepalive(10)
         self.chan = chan
 

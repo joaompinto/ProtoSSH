@@ -1,3 +1,2 @@
 paramiko
-colorama
 py-getch

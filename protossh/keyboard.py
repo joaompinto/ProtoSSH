@@ -11,4 +11,8 @@ class KeyboardReadThread(threading.Thread):
     def run(self):
         while True:
             key = getch()
+            # Handle CTRL-C while running in debug mode
+            # if key == b"\x03":
+            #    break
             self.chan.sendall(key)
+        self.terminate_queue.put(None)
