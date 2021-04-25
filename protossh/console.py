@@ -13,8 +13,10 @@ class INPUT(Enum):
 ESC = 0x1b
 
 
-# https://vt100.net/docs/vt102-ug/appendixd.html
 class TerminalStream:
+
+    # https://vt100.net/docs/vt102-ug/appendixd.html
+
     def __init__(self):
         self.escape_sequence = ""
         self.set_mode(INPUT.TEXT)

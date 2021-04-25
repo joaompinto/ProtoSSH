@@ -1,4 +1,5 @@
 import threading
+import sys
 from getch import getch
 
 # TODO: Query host for the supported terminal mode
@@ -7,7 +8,7 @@ from getch import getch
 
 class KeyboardReadThread(threading.Thread):
 
-    # Translate keyboard scan codes to ANSI key codes
+    # Translate keyboard scan codes to ANSI control codes
     #   Key codes: http://microvga.com/ansi-keycodes
     #   ANSI sequences: https://notes.burke.libbey.me/ansi-escape-codes/
     EXTENDED_KEY_MAP = {
@@ -47,6 +48,6 @@ class KeyboardReadThread(threading.Thread):
         """ try to send to the remote end """
         try:
             self.chan.sendall(content)
-        except ex:
+        except Exception as ex:
             print(ex, file=sys.stderr)
             self.terminate_queue.put(None)
