@@ -1,5 +1,7 @@
 import threading
-from .stream import TerminalStream
+from .console import TerminalStream
+
+BUFFER_SIZE = 4096
 
 
 class NetworkReadThread(threading.Thread):
@@ -15,7 +17,7 @@ class NetworkReadThread(threading.Thread):
         chan = self.chan
         chan.setblocking(True)
         while True:
-            data = chan.recv(65535)
+            data = chan.recv(BUFFER_SIZE)
             if len(data) == 0:  # Connection was closed
                 break
             self.stream.feed(data)
