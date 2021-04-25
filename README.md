@@ -17,7 +17,8 @@ pip install -r requirements.txt
 ```
 ## Run the client
 ```sh
-python -m protossh
+# User root, localhost, port 3333, password: root
+python -m protossh root@localhost@3333@root
 ```
 
 # Approach
