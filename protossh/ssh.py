@@ -18,20 +18,20 @@ class SSHClient:
         self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.recv_lcount = 0
 
-    def connect(self, destination):
-        at_count = destination.count('@')
+    def connect(self, destination, port, is_kerberos_auth):
+        if is_kerberos_auth:
+            self.client.connect(hostname=destination, port=port, gss_auth=True)
+            return
+
         username = os.getenv("USERNAME")
         hostname = destination
-        port = 22
         password = None
-        if at_count == 1:
-            username, hostname = destination.split("@")
-        elif at_count == 2:
-            username, hostname, port = destination.split("@")
-        elif at_count >= 3:
-            username, hostname, port, password = destination.split("@", 3)
+        if '@' in destination:
+            username, hostname = destination.rsplit("@", 1)
+        if ':' in username:
+            username, password = username.split(":", 1)
         if password is None:
-            password = getpass(f"Type the password for {username}@{hostname}@{port}: ")
+            password = getpass(f"Type the password for {username}@{hostname} [port: {port}]: ")
         self.client.connect(hostname=hostname, port=port, username=username, password=password)
 
     def run_terminal(self, initial_command=None):
