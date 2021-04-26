@@ -1,6 +1,16 @@
 # ProtoSSH
 
-This a Proof-Of-Concept implementation of an SSH client using Python.
+
+ProtoSSH  is a pure python implementation of an SSH client using the [Paramiko] library.
+The goal is not to get a full re-implementation of the openssh client, but instead provide some features which would be harder to get into opeenssh.
+
+[Paramiko]: https://www.paramiko.org/
+# Features
+
+Features currently available:
+- Password based authentication directly from the CLI (for dev purposes)
+- Windows Single Sign On (Kerberos) authentication
+
 
 # How to test
 
@@ -26,4 +36,4 @@ After establishing the connection, the main app creates two threads:
 - NetworkReadThread - which reads server data and sends it to stdout
 - KeyboardReadThread - which reads keyboard inputs and sends it to the ssh server
 
-The main thread blocks waiting for an item to be placed in the "TerminateQueue()", which happens when the network connection is terminated.
+The main thread blocks waiting for an item to be available from the "TerminateQueue()", which happens when the network connection is terminated.
